@@ -1,33 +1,47 @@
-API para el Control de Clientes, Facturas y Productos
+# API para el Control de Clientes, Facturas y Productos
 Esta API permite gestionar operaciones CRUD en entidades como Clientes, Facturas y Productos. Además, ofrece funcionalidades adicionales como autenticación de usuarios, generación asincrónica de exportables CSV y cargue masivo de datos desde archivos CSV.
 
-Instalación 🔧
+### Instalación 🔧
 Sigue estos pasos para instalar y ejecutar la API en tu entorno local:
 
-Clonación del repositorio
-bash
-Copy code
-git clone git@github.com:tudireccion/turepo.git
-cd turepo
-Creación y activación del entorno virtual
-bash
-Copy code
+_Clonación del repositorio_
+
+```shell
+git clone git@github.com:dickson7/api-clients-bills-products.git
+````
+_Ingresamos en el directorio del repositorio clonado, y ejecutamos el siguiente comando para habilitar el entorno virtual_
+
+```shell
 python3 -m venv env
+```
+
+_Activamos el entorno virtual_
+
+```shell
 source env/bin/activate
-Instalación de dependencias
-bash
-Copy code
-(env)$ pip install -r requirements.txt
-Realización de migraciones
-bash
-Copy code
-(env)$ python manage.py makemigrations
-(env)$ python manage.py migrate
-Ejecución del servidor
-bash
-Copy code
-(env)$ python manage.py runserver
-Uso 🚀
+```
+
+_Instalamos las dependencias con pip_
+
+```shell
+(env)$ pip3 install -r requirements.txt
+```
+
+_Lanzamos migraciones_
+
+```shell
+(env)$ python3 manage.py makemigrations
+(env)$ python3 manage.py migrate
+```
+
+
+_Como último paso realizamos la ejecución del servidor_
+
+```shell
+(env)$ python3 manage.py runserver
+```
+
+### Uso 🚀
 Después de completar la instalación y ejecutar el servidor, puedes acceder a la documentación de los endpoints visitando la dirección raíz de la API. La documentación completa está disponible a través de Swagger.
 
 Es importante destacar que la API utiliza un sistema de autorización basado en tokens JWT (JSON Web Tokens). Para interactuar con los endpoints protegidos, primero debes registrarte en la API utilizando el endpoint de registro e iniciar sesión. Esto te proporcionará un token de acceso que debes incluir en las solicitudes a los endpoints protegidos.
