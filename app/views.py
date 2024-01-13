@@ -11,6 +11,7 @@ from rest_framework.response import Response
 from datetime import datetime
 from asgiref.sync import sync_to_async
 
+
 def generate_csv(file_name):
     clients = Client.objects.all()
     data = []
@@ -49,20 +50,15 @@ def download_csv(request):
     
 @api_view(['POST'])
 def upload_csv(request):
-    # Verificar si se proporcionó un archivo en la solicitud
     if 'file' not in request.FILES:
         return JsonResponse({"error": "No se proporcionó un archivo CSV."}, status=400)
 
     csv_file = request.FILES['file']
-
-    # Verificar si el archivo es un archivo CSV
     if not csv_file.name.endswith('.csv'):
         return JsonResponse({"error": "El archivo proporcionado no es un archivo CSV válido."}, status=400)
 
-    # Leer el contenido del archivo CSV y crear clientes
     clients_data = []
     try:
-        # Abrir el archivo en modo texto y decodificar los bytes
         csv_file_wrapper = io.TextIOWrapper(csv_file.file, encoding='utf-8')
         reader = csv.DictReader(csv_file_wrapper)
         for row in reader:
@@ -70,27 +66,24 @@ def upload_csv(request):
     except Exception as e:
         return JsonResponse({"error": f"No se pudo leer el archivo CSV. Error: {str(e)}"}, status=400)
 
-    # Iniciar el proceso de creación masiva en un hilo separado
-    print(clients_data)
     threading.Thread(target=async_create_clients, args=(clients_data,)).start()
 
     return JsonResponse({"message": "Carga masiva en proceso. Verifica el estado más tarde."})
 
 
-# Función asincrónica para crear clientes
-async def async_create_clients(clients_data):
+def async_create_clients(clients_data):
     for data in clients_data:
         serializer = ClientSerializer(data=data)
         if serializer.is_valid():
-            await sync_to_async(serializer.save)()
+            serializer.save()
         else:
-            print(f"Error de validación: {serializer.errors}")   
+            print(f"Error de validación: {serializer.errors}")
+
+    print("Proceso de creación masiva completado.")
     from django.db import connections
     connections.close_all()
  
-    
-    
-    
+
 class ClientListCreateView(generics.ListCreateAPIView):
     queryset = Client.objects.all()
     serializer_class = ClientSerializer

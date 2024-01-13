@@ -41,8 +41,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'drf_yasg',
     'authentication',
-    'app'
+    'app',
 ]
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -59,7 +60,6 @@ REST_FRAMEWORK = {
         'authentication.backends.JWTAuthentication',
     )
 }
-
 ROOT_URLCONF = 'billsapi.urls'
 
 TEMPLATES = [
@@ -77,8 +77,6 @@ TEMPLATES = [
         },
     },
 ]
-
-WSGI_APPLICATION = 'billsapi.wsgi.application'
 
 
 # Database
